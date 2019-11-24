@@ -52,6 +52,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="MusicNote.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MusicStaff.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -65,6 +71,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -78,6 +85,34 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\44.bmp" />
+    <Content Include="Images\Bar.bmp" />
+    <Content Include="Images\blank.bmp" />
+    <Content Include="Images\Crotchet.bmp" />
+    <Content Include="Images\CrotchetR.bmp" />
+    <Content Include="Images\DotMin.bmp" />
+    <Content Include="Images\DotMinim.bmp" />
+    <Content Include="Images\flat.bmp" />
+    <Content Include="Images\Flat1.bmp" />
+    <Content Include="Images\minim.bmp" />
+    <Content Include="Images\MinimR.bmp" />
+    <Content Include="Images\Natural.bmp" />
+    <Content Include="Images\Natural1.bmp" />
+    <Content Include="Images\Quaver.bmp" />
+    <Content Include="Images\Quaver.png" />
+    <Content Include="Images\Quaver1.png" />
+    <Content Include="Images\QuaverR.bmp" />
+    <Content Include="Images\SemiBreve.bmp" />
+    <Content Include="Images\SemiBreveR.bmp" />
+    <Content Include="Images\SemiQuaver.bmp" />
+    <Content Include="Images\SemiQuaverR.bmp" />
+    <Content Include="Images\Sharp.bmp" />
+    <Content Include="Images\Sharp1.bmp" />
+    <Content Include="Images\Staff.bmp" />
+    <Content Include="Images\Staff2.bmp" />
+    <Content Include="Images\Treble.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,41 +1,46 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace Composer
 {
     public class MusicNote : PictureBox
     {
-        public static string rootFolder = "E:\\Studia\\5 semester\\OOP\\assignment\\Composer\\Composer\\bin\\Debug\\MusicNotes-Images\\";
+        private const string Root = @"Images\";
+
         //----------------- Data fields -----------------
         int pitch; // number of music key (i.e. sound frequency)
-        int noteShape; // shape of note
+        int duration; // shape of note
         bool isDragging = false; // added field indentifying beginning and end of dragging
+
         //----------------- Constructor -----------------
-        public MusicNote(int x, int iPitch, int inoteShape) : base()
+        public MusicNote(int x, int iPitch, int iNoteShape) : base()
         {
             pitch = iPitch;
-            noteDuration = mDuration;
-            Location = new Point(x, 200);   //  value of x specifies horizontal position of the music note picture
-            this.Size = new size(25, 40);
+            duration = iNoteShape;
+            Location = new Point(x, 50);   //  value of x specifies horizontal position of the music note picture
+            Size = new Size(25, 40);
 
             //----------------- get image of music note -----------------
-            Bitmap bmp = new Bitmap(rootFolder + "SemiQuaver.bmp");
-            this.Image = bmp;   //  Alternatively: this.Image = Image.FromFile(rootFolder + "SemiQuaver.bmp");
-            this.BackColor = Color.Transparent;
+            Image = Properties.Resources.Crotchet;
+            BackColor = Color.Transparent;
 
             //----------------- Mouse Event handlers registration -----------------
-            this.MouseDown += new MouseEventHandler(StartDrag);
-            this.MouseUp += new MouseEventHandler(StopDrag);
-            this.MouseMove += new MouseEventHandler(NoteDrag);
+            MouseDown += new MouseEventHandler(StartDrag);
+            MouseUp += new MouseEventHandler(StopDrag);
+            MouseMove += new MouseEventHandler(NoteDrag);
+
+            SizeMode = PictureBoxSizeMode.AutoSize;
         }
 
         private void InitializeComponent()
         {
-            this.BackColor = System.Drawing.SystemColor.Control;
-            this.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            BackColor = SystemColors.Control;
+            SizeMode = PictureBoxSizeMode.AutoSize;
+
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-            this.ResumeLayout(false);
+            ResumeLayout(false);
         }
+
         //----------------- Mouse Event handlers implementation -----------------
         private void StartDrag(object sender, MouseEventArgs e)
         {
