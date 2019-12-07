@@ -30,6 +30,8 @@ namespace Composer
 
         public MusicStaff()
         {
+            BorderStyle = BorderStyle.FixedSingle;
+
             _Notes = new ObservableCollection<MusicNote>();
             _Notes.CollectionChanged += Notes_CollectionChanged;
 
@@ -53,11 +55,13 @@ namespace Composer
 
             using (var pen = new Pen(Color.Black, 1))
             {
-                for (var i = 0; i < 5; i++)
+                for (var i = 1; i < 5; i++)
                 {
                     gfx.DrawLine(pen, 0, i * x, Width - 1, i * x);
                 }
             }
+
+            gfx.DrawImage(Properties.Resources.Treble, new Point(0, 0));
         }
     }
 }
