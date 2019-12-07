@@ -6,6 +6,7 @@ namespace Composer
     public class MusicNote : PictureBox
     {
         private const string Root = @"Images\";
+        private Point _DragStart;
 
         //----------------- Data fields -----------------
         int pitch; // number of music key (i.e. sound frequency)
@@ -63,9 +64,18 @@ namespace Composer
 
         private void NoteDrag(object sender, MouseEventArgs e)
         {
-            if (isDragging)
+            if (isDragging && System.Math.Abs(_DragStart.Y - e.Y) > 4)
             {
-                this.Top = this.Top + (e.Y - this.pitch); // move in VERTICAL direction
+                if (_DragStart.Y < e.Y && ((Parent.Height - Bottom) >= 5)) // Dragging Down
+                {
+                    Location = new Point(Location.X, Location.Y + 5);
+                }
+                else if (_DragStart.Y > e.Y && Top >= 5) // Dragging Up
+                {
+                    Location = new Point(Location.X, Location.Y - 5);
+                }
+
+                //this.Top = this.Top + (e.Y - this.pitch); // move in VERTICAL direction
             }   //  Top property is distance in pixels between then top edge of the component and top edge of its container
         }
 
