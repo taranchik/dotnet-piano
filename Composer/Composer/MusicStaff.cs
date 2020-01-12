@@ -6,18 +6,6 @@ using System.Windows.Forms;
 
 namespace Composer
 {
-    public enum Tempo
-    {
-        Grave = 0,
-        Largo,
-        Lento,
-        Adagio,
-        Andante,
-        Moderato,
-        Allegro,
-        Presto
-    }
-
     class MusicStaff : Panel
     {
         private Button _PlayButton;

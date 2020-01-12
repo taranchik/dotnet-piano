@@ -1,87 +1,189 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Media;
+using System.Runtime.Serialization;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Composer
 {
-    public class MusicNote : PictureBox
+    [Serializable]
+    public class MusicNote : PictureBox, ISerializable
     {
-        private const string Root = @"Images\";
+        // Private Fields
         private Point _DragStart;
+        private bool _IsDragging = false;
+        private int _Duration; // 1 Tick = 63ms
 
-        //----------------- Data fields -----------------
-        int pitch; // number of music key (i.e. sound frequency)
-        int duration; // shape of note
-        bool isDragging = false; // added field indentifying beginning and end of dragging
-
-        //----------------- Constructor -----------------
-        public MusicNote(int x, int iPitch, int iNoteShape) : base()
+        public int Pitch { get; set; }
+        public int Duration
         {
-            pitch = iPitch;
-            duration = iNoteShape;
-            Location = new Point(x, 50);   //  value of x specifies horizontal position of the music note picture
-            Size = new Size(25, 40);
+            get
+            {
+                return _Duration;
+            }
 
-            //----------------- get image of music note -----------------
-            Image = Properties.Resources.Crotchet;
-            BackColor = Color.Transparent;
+            set
+            {
+                if (value >= 11 && value <= 15)
+                {
+                    _Duration = 13;
+                    Image = Properties.Resources.DotMinim;
+                }
+                else if (value >= 6 && value <= 10)
+                {
+                    _Duration = 8;
+                    Image = Properties.Resources.Minim;
+                }
+                else if (value >= 3 && value <= 5)
+                {
+                    _Duration = 4;
+                    Image = Properties.Resources.Crotchet;
+                }
+                else if (value == 2)
+                {
+                    _Duration = 2;
+                    Image = Properties.Resources.Quaver;
+                }
+                else if (value == 1)
+                {
+                    _Duration = 1;
+                    Image = Properties.Resources.SemiQuaver;
+                }
+                else
+                {
+                    _Duration = 16;
+                    Image = Properties.Resources.SemiBreve;
+                }
+            }
+        }
 
-            //----------------- Mouse Event handlers registration -----------------
-            MouseDown += new MouseEventHandler(StartDrag);
-            MouseUp += new MouseEventHandler(StopDrag);
-            MouseMove += new MouseEventHandler(NoteDrag);
 
-            SizeMode = PictureBoxSizeMode.AutoSize;
+        public MusicNote(int x, int pitch, int duration) : base()
+        {
+            Pitch = pitch;
+            Duration = duration;
+            Location = new Point(x, 50);
+            Size = new Size(100, 160);
+
+            InitializeComponent();
+        }
+
+        public MusicNote(SerializationInfo info, StreamingContext context)
+        {
+            Pitch = info.GetInt32("Pitch");
+            Duration = info.GetInt32("Duration");
+            Location = (Point)info.GetValue("Location", typeof(Point));
+
+            InitializeComponent();
         }
 
         private void InitializeComponent()
         {
-            BackColor = SystemColors.Control;
+            BackColor = Color.Transparent;
             SizeMode = PictureBoxSizeMode.AutoSize;
 
-            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-            ResumeLayout(false);
+            // Events Handlers
+            MouseDown += new MouseEventHandler(MusicNote_MouseDown);
+            MouseUp += new MouseEventHandler(MusicNote_MouseUp);
+            MouseMove += new MouseEventHandler(MusicNote_MouseMove);
+            MouseClick += new MouseEventHandler(MusicNote_MouseClick);
         }
 
-        //----------------- Mouse Event handlers implementation -----------------
-        private void StartDrag(object sender, MouseEventArgs e)
+        protected override void OnPaint(PaintEventArgs pe)
         {
-            if(e.Button == MouseButtons.Left)
+            base.OnPaint(pe);
+
+            var gfx = pe.Graphics;
+
+            if (MusicInfo.NoteInfo[Pitch].Item3) // Is Semitone
             {
-                isDragging = true;
-                pitch = e.Y; // current y coordinate of mouse
-                this.Location = new Point(this.Location.X, pitch);
+                gfx.DrawString("#", SystemFonts.DefaultFont, Brushes.Black, 0, 20);
             }
         }
 
-        private void StopDrag(object sender, MouseEventArgs e)
+        private void MusicNote_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                isDragging = false;
-                pitch = e.Y; // current y coordinate of mouse
+                _IsDragging = true;
+                _DragStart = e.Location;
             }
         }
 
-        private void NoteDrag(object sender, MouseEventArgs e)
+        private void MusicNote_MouseUp(object sender, MouseEventArgs e)
         {
-            if (isDragging && System.Math.Abs(_DragStart.Y - e.Y) > 4)
+            if (e.Button == MouseButtons.Left)
             {
-                if (_DragStart.Y < e.Y && ((Parent.Height - Bottom) >= 5)) // Dragging Down
-                {
-                    Location = new Point(Location.X, Location.Y + 5);
-                }
-                else if (_DragStart.Y > e.Y && Top >= 5) // Dragging Up
-                {
-                    Location = new Point(Location.X, Location.Y - 5);
-                }
-
-                //this.Top = this.Top + (e.Y - this.pitch); // move in VERTICAL direction
-            }   //  Top property is distance in pixels between then top edge of the component and top edge of its container
+                _IsDragging = false;
+            }
         }
 
-        protected override void OnPaint(PaintEventArgs pe)  //  redrawn automatically
+        private void MusicNote_MouseMove(object sender, MouseEventArgs e)
         {
-            base.OnPaint(pe);
+            if (_IsDragging && Math.Abs(_DragStart.Y - e.Y) > 10)
+            {
+                if (_DragStart.Y < e.Y && Pitch > 0 && ((Parent.Height - Bottom) >= 5)) // Dragging Down
+                {
+                    if (MusicInfo.NoteInfo[Pitch].Item3 != MusicInfo.NoteInfo[Pitch - 1].Item3) // Compare Staff Position
+                    {
+                        Location = new Point(Location.X, Location.Y + 5);
+                    }
+
+                    Pitch--;
+                }
+                else if (_DragStart.Y > e.Y && Pitch < (MusicInfo.NoteInfo.Length - 1) && Top >= 5) // Dragging Up
+                {
+                    if (MusicInfo.NoteInfo[Pitch].Item3 != MusicInfo.NoteInfo[Pitch + 1].Item3) // If Not Semitone
+                    {
+                        Location = new Point(Location.X, Location.Y - 5);
+                    }
+
+                    Pitch++;
+                }
+            }
+
+            Invalidate();
+        }
+
+        private void MusicNote_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Play();
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                var x = (Array.BinarySearch(MusicInfo.DurationScale, Duration) + 1) % MusicInfo.DurationScale.Length;
+
+                Duration = MusicInfo.DurationScale[x];
+            }
+        }
+
+        public void Play(SoundPlayer sfxPlayer, double spdModifier)
+        {
+            sfxPlayer.Stream = Properties.Resources.ResourceManager.GetObject(string.Format("{0:D2}", Pitch)) as MemoryStream;
+            sfxPlayer.Play();
+
+            Thread.Sleep((int)(63 * spdModifier) * Duration);
+
+            sfxPlayer.Stop();
+        }
+
+        public void Play()
+        {
+            using (var sfxPlayer = new SoundPlayer())
+            {
+                Play(sfxPlayer, 1);
+            }
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Location", Location, typeof(Point));
+            info.AddValue("Pitch", Pitch);
+            info.AddValue("Duration", Duration);
         }
     }
 }
