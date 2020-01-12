@@ -105,7 +105,7 @@ namespace Composer
             var x = (sender as MusicKey).Pitch;
 
             // Play Note
-            _Player.Stream = Properties.Resources.ResourceManager.GetObject(MusicInfo.NoteInfo[x].Item1) as MemoryStream;
+            _Player.Stream = Properties.Resources.ResourceManager.GetObject(string.Format("_{0:D2}", x)) as MemoryStream;
             _Player.Play();
 
             // Start Timer

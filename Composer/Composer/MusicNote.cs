@@ -163,7 +163,7 @@ namespace Composer
 
         public void Play(SoundPlayer sfxPlayer, double spdModifier)
         {
-            sfxPlayer.Stream = Properties.Resources.ResourceManager.GetObject(string.Format("{0:D2}", Pitch)) as MemoryStream;
+            sfxPlayer.Stream = Properties.Resources.ResourceManager.GetObject(string.Format("_{0:D2}", Pitch)) as MemoryStream;
             sfxPlayer.Play();
 
             Thread.Sleep((int)(63 * spdModifier) * Duration);

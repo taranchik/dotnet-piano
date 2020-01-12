@@ -65,7 +65,7 @@ namespace Composer
 
             Controls.Add(_ButtonPanel);
 
-            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
         }
 
         private void PlayButton_Click(object sender, EventArgs e)

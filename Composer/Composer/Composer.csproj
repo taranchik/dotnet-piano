@@ -53,6 +53,10 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="MusicInfo.cs" />
+    <Compile Include="MusicKey.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MusicKeyboard.cs" />
     <Compile Include="MusicNote.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -63,6 +67,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MusicKeyboard.resx">
+      <DependentUpon>MusicKeyboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

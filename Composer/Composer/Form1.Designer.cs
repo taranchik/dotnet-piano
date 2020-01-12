@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.musicStaff = new Composer.MusicStaff();
+            this.musicKeyboard = new Composer.MusicKeyboard();
             this.SuspendLayout();
             // 
             // musicStaff
@@ -39,11 +40,19 @@
             this.musicStaff.Size = new System.Drawing.Size(776, 240);
             this.musicStaff.TabIndex = 0;
             // 
+            // musicKeyboard
+            // 
+            this.musicKeyboard.Location = new System.Drawing.Point(50, 278);
+            this.musicKeyboard.Name = "musicKeyboard";
+            this.musicKeyboard.Size = new System.Drawing.Size(700, 160);
+            this.musicKeyboard.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.musicKeyboard);
             this.Controls.Add(this.musicStaff);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
@@ -55,6 +64,7 @@
         #endregion
 
         private MusicStaff musicStaff;
+        private MusicKeyboard musicKeyboard;
     }
 }
 
