@@ -28,30 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.musicStaff1 = new Composer.MusicStaff();
+            this.musicStaff = new Composer.MusicStaff();
             this.SuspendLayout();
             // 
-            // timer1
+            // musicStaff
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // musicStaff1
-            // 
-            this.musicStaff1.Location = new System.Drawing.Point(12, 146);
-            this.musicStaff1.Name = "musicStaff1";
-            this.musicStaff1.Size = new System.Drawing.Size(776, 135);
-            this.musicStaff1.TabIndex = 0;
-            this.musicStaff1.Tempo = Composer.Tempo.Grave;
+            this.musicStaff.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.musicStaff.Location = new System.Drawing.Point(12, 12);
+            this.musicStaff.Name = "musicStaff";
+            this.musicStaff.Size = new System.Drawing.Size(776, 240);
+            this.musicStaff.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.musicStaff1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Controls.Add(this.musicStaff);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Composer";
             this.ResumeLayout(false);
@@ -59,8 +53,8 @@
         }
 
         #endregion
-        private System.Windows.Forms.Timer timer1;
-        private MusicStaff musicStaff1;
+
+        private MusicStaff musicStaff;
     }
 }
 
