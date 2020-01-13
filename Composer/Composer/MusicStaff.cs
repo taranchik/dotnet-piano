@@ -156,7 +156,7 @@ namespace Composer
             {
                 var x = e.NewItems[0] as MusicNote;
                 var p = MusicInfo.NoteInfo[x.Pitch].Item2; // Staff Position
-                var y = (LineSpacing * 9) - (p * 5) - x.Height + 1;
+                var y = (LineSpacing * 10) - (p * 5) - x.Height + 1;
 
                 x.Location = new Point((Notes.Count + 1) * 35, y);
 
@@ -186,17 +186,18 @@ namespace Composer
             using (var pen1 = new Pen(Color.DarkGray, 1) { DashStyle = DashStyle.Dash })
             using (var pen2 = new Pen(Color.Black, 1))
             {
-                gfx.DrawLine(pen1, 0, LineSpacing * 2, Width - 1, LineSpacing * 2);
+                gfx.DrawLine(pen1, 0, LineSpacing * 3, Width - 1, LineSpacing * 3);
 
-                for (var i = 3; i <= 7; i++)
+                for (var i = 4; i <= 8; i++)
                 {
                     gfx.DrawLine(pen2, 0, i * LineSpacing, Width - 1, i * LineSpacing);
                 }
 
-                gfx.DrawLine(pen1, 0, 8 * LineSpacing, Width - 1, 8 * LineSpacing);
+                gfx.DrawLine(pen1, 0, 9 * LineSpacing, Width - 1, 9 * LineSpacing);
             }
 
-            gfx.DrawImage(Properties.Resources.Treble, new RectangleF(0, LineSpacing * 1.5f, 50, 75));
+            gfx.DrawImage(Properties.Resources.Treble, new RectangleF(0, LineSpacing * 2.5f, 50, 75));
+            gfx.DrawImage(Properties.Resources.Signature, new RectangleF(40, LineSpacing * 4.25f, 35, 40));
         }
     }
 }

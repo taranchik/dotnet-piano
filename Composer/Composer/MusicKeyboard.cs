@@ -57,7 +57,7 @@ namespace Composer
                 for (var j = 0; j < _KeyMap.Length; j++)
                 {
                     var n = (i * _KeyMap.Length) + j;
-                    var x = new MusicKey(_KeyMap[j].Item1) { Pitch = n, FlatStyle = FlatStyle.Standard };
+                    var x = new MusicKey(_KeyMap[j].Item1) { Pitch = n };
 
                     if (!_KeyMap[j].Item1)
                     {
@@ -97,7 +97,7 @@ namespace Composer
             _Player.Stop();
 
             // Notify Listeners
-            NotePlayed?.Invoke(this, new NoteEventArgs(x, _ElapsedTicks));
+            NotePlayed?.Invoke(this, new NoteEventArgs(x, Math.Max(1, _ElapsedTicks)));
         }
 
         private void Key_MouseDown(object sender, MouseEventArgs e)

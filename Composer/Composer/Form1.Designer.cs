@@ -28,24 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.musicStaff = new Composer.MusicStaff();
             this.musicKeyboard = new Composer.MusicKeyboard();
+            this.musicStaff = new Composer.MusicStaff();
             this.SuspendLayout();
+            // 
+            // musicKeyboard
+            // 
+            this.musicKeyboard.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.musicKeyboard.Location = new System.Drawing.Point(50, 278);
+            this.musicKeyboard.Name = "musicKeyboard";
+            this.musicKeyboard.Size = new System.Drawing.Size(700, 160);
+            this.musicKeyboard.TabIndex = 1;
             // 
             // musicStaff
             // 
+            this.musicStaff.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.musicStaff.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.musicStaff.Location = new System.Drawing.Point(12, 12);
             this.musicStaff.Name = "musicStaff";
             this.musicStaff.Size = new System.Drawing.Size(776, 240);
             this.musicStaff.TabIndex = 0;
-            // 
-            // musicKeyboard
-            // 
-            this.musicKeyboard.Location = new System.Drawing.Point(50, 278);
-            this.musicKeyboard.Name = "musicKeyboard";
-            this.musicKeyboard.Size = new System.Drawing.Size(700, 160);
-            this.musicKeyboard.TabIndex = 1;
             // 
             // Form1
             // 

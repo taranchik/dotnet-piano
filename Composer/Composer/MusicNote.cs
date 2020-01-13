@@ -99,7 +99,7 @@ namespace Composer
 
             if (MusicInfo.NoteInfo[Pitch].Item3) // Is Semitone
             {
-                gfx.DrawString("#", SystemFonts.DefaultFont, Brushes.Black, 0, 20);
+                gfx.DrawString("#", new Font(FontFamily.GenericSansSerif, 12), Brushes.Black, 0, 20);
             }
         }
 
@@ -122,29 +122,29 @@ namespace Composer
 
         private void MusicNote_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_IsDragging && Math.Abs(_DragStart.Y - e.Y) > 10)
+            if (_IsDragging && Math.Abs(_DragStart.Y - e.Y) > 15)
             {
-                if (_DragStart.Y < e.Y && Pitch > 0 && ((Parent.Height - Bottom) >= 5)) // Dragging Down
+                if (_DragStart.Y < e.Y && Pitch > 0) // Dragging Down
                 {
-                    if (MusicInfo.NoteInfo[Pitch].Item3 != MusicInfo.NoteInfo[Pitch - 1].Item3) // Compare Staff Position
+                    if (MusicInfo.NoteInfo[Pitch].Item2 != MusicInfo.NoteInfo[Pitch - 1].Item2) // Compare Staff Position
                     {
                         Location = new Point(Location.X, Location.Y + 5);
                     }
 
                     Pitch--;
                 }
-                else if (_DragStart.Y > e.Y && Pitch < (MusicInfo.NoteInfo.Length - 1) && Top >= 5) // Dragging Up
+                else if (_DragStart.Y > e.Y && Pitch < (MusicInfo.NoteInfo.Length - 1)) // Dragging Up
                 {
-                    if (MusicInfo.NoteInfo[Pitch].Item3 != MusicInfo.NoteInfo[Pitch + 1].Item3) // If Not Semitone
+                    if (MusicInfo.NoteInfo[Pitch].Item2 != MusicInfo.NoteInfo[Pitch + 1].Item2) // Compare Staff Position
                     {
                         Location = new Point(Location.X, Location.Y - 5);
                     }
 
                     Pitch++;
                 }
-            }
 
-            Invalidate();
+                Invalidate();
+            }
         }
 
         private void MusicNote_MouseClick(object sender, MouseEventArgs e)
