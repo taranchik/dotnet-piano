@@ -25,7 +25,7 @@ namespace Composer
         private readonly System.Timers.Timer _Timer;
         private int _ElapsedTicks;
 
-        private ValueTuple<bool, int>[] _KeyMap = new ValueTuple<bool, int>[] // <Is Semitone, Nearest Snap Point>
+        private static ValueTuple<bool, int>[] _KeyMap = new ValueTuple<bool, int>[] // <Is Semitone, Nearest Snap Point>
         {
             new ValueTuple<bool, int>(false, 0), new ValueTuple<bool, int>(true, 0),
             new ValueTuple<bool, int>(false, 1), new ValueTuple<bool, int>(true, 1),
@@ -64,16 +64,15 @@ namespace Composer
                         x.Width = 50;
                         x.Height = Height;
                         x.Location = new Point(_KeyMap[j].Item2 * 50, 0);
-                        x.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
                     }
-                    else // If Semitone
+                    else // If Black Key
                     {
                         x.Width = 35;
                         x.Height = Height / 2;
                         x.Location = new Point((_KeyMap[j].Item2 * 50) + 32, 0);
-                        x.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
                     }
 
+                    x.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
                     x.MouseDown += Key_MouseDown;
                     x.MouseUp += Key_MouseUp;
 

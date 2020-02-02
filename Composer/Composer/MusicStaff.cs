@@ -28,13 +28,6 @@ namespace Composer
             {
                 return _Notes;
             }
-
-            private set
-            {
-                Controls.Clear();
-                Controls.Add(_ButtonPanel);
-                Controls.AddRange(value.ToArray());
-            }
         }
 
         public MusicStaff()
@@ -123,7 +116,13 @@ namespace Composer
                         {
                             var formatter = new BinaryFormatter();
 
-                            Notes = formatter.Deserialize(stream) as ObservableCollection<MusicNote>;
+                            _Notes.CollectionChanged -= Notes_CollectionChanged;
+                            _Notes = formatter.Deserialize(stream) as ObservableCollection<MusicNote>;
+                            _Notes.CollectionChanged += Notes_CollectionChanged;
+
+                            Controls.Clear();
+                            Controls.Add(_ButtonPanel);
+                            Controls.AddRange(_Notes.ToArray());
                         }
                     }
                     catch (SerializationException)
